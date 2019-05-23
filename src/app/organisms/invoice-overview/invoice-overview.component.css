@@ -6,3 +6,8 @@
 table {
   width: 100%;
 }
+
+.mat-expansion-panel {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}

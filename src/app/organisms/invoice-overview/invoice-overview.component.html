@@ -1,33 +1,72 @@
+<div class="container" *ngIf="this.invoice">
+  <h1>Mijn facturen</h1>
+  <div *ngFor="let vehicleInvoice of this.invoice.vehicleInvoices">
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ vehicleInvoice.vehicle.displayName }}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{ vehicleInvoice.vehicle.licensePlate }}
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
-<div class="container">
-    <h1>Mijn facturen</h1> 
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <table
+          mat-table
+          [dataSource]="vehicleInvoice.kilometerInvoiceLines"
+          class="mat-elevation-z1"
+        >
+          <ng-container matColumnDef="roadType">
+            <th mat-header-cell *matHeaderCellDef>Roadtype</th>
+            <td mat-cell *matCellDef="let element">{{ element.roadType }}</td>
+          </ng-container>
 
-    <!-- Position Column -->
-    <ng-container matColumnDef="position">
-      <th mat-header-cell *matHeaderCellDef>No.</th>
-      <td mat-cell *matCellDef="let element">{{ element.position }}</td>
-    </ng-container>
+          <ng-container matColumnDef="drivenDistanceInMeters">
+            <th mat-header-cell *matHeaderCellDef>Driven distance (m.)</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.drivenDistanceInMeters }}
+            </td>
+          </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-    </ng-container>
+          <ng-container matColumnDef="pricePerKilometerBeforeTaxes">
+            <th mat-header-cell *matHeaderCellDef>Price per km</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.pricePerKilometerBeforeTaxes }}
+            </td>
+          </ng-container>
 
-    <!-- Weight Column -->
-    <ng-container matColumnDef="weight">
-      <th mat-header-cell *matHeaderCellDef>Weight</th>
-      <td mat-cell *matCellDef="let element">{{ element.weight }}</td>
-    </ng-container>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="[
+              'roadType',
+              'drivenDistanceInMeters',
+              'pricePerKilometerBeforeTaxes'
+            ]"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="
+              let row;
+              columns: [
+                'roadType',
+                'drivenDistanceInMeters',
+                'pricePerKilometerBeforeTaxes'
+              ]
+            "
+          ></tr>
+        </table>
 
-    <!-- Symbol Column -->
-    <ng-container matColumnDef="symbol">
-      <th mat-header-cell *matHeaderCellDef>Symbol</th>
-      <td mat-cell *matCellDef="let element">{{ element.symbol }}</td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+        <mat-action-row>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="initiateInvoicePayment(vehicleInvoice)"
+          >
+            Pay
+          </button>
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </div>

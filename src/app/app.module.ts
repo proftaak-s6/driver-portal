@@ -9,16 +9,10 @@ import {
   MatToolbarModule,
   MatFormFieldModule,
   MatInputModule,
-  MatSelectModule,
-  MatOptionModule,
   MatButtonModule,
   MatTableModule,
   MatIconModule,
-  MatPaginatorModule,
-  MatDialogModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatSnackBarModule
+  MatExpansionModule
 } from "@angular/material";
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -28,7 +22,11 @@ import { InvoiceOverviewComponent } from "./organisms/invoice-overview/invoice-o
 import { InvoiceService } from "src/services/invoice.service";
 
 @NgModule({
-  declarations: [AppComponent, HeaderBarComponent, InvoiceOverviewComponent],
+  declarations: [
+    AppComponent,
+    HeaderBarComponent,
+    InvoiceOverviewComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -37,16 +35,10 @@ import { InvoiceService } from "src/services/invoice.service";
     MatToolbarModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule,
-    MatOptionModule,
     MatButtonModule,
     MatTableModule,
     MatIconModule,
-    MatPaginatorModule,
-    MatDialogModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSnackBarModule
+    MatExpansionModule
   ],
   providers: [InvoiceService],
   bootstrap: [AppComponent]
