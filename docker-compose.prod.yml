@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  overheidsportaal:
+    container_name: overheidsportaal-frontend 
+    build: .
+    image: yoksar/driver-portal
+    ports:
+      - 4400:80
+    restart: unless-stopped
