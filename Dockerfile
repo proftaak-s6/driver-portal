@@ -14,4 +14,4 @@ RUN npm run build:production
 # Stage 2: Serve
 FROM nginx:1.15.9-alpine
 
-COPY --from=0 /usr/src/app/dist/overheidsportaal /usr/share/nginx/html
+COPY --from=0 /usr/src/app/dist/driver-portal /usr/share/nginx/html
