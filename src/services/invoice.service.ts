@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Invoice } from "./invoice.models";
 import { Observable } from "rxjs";
 
@@ -13,9 +13,15 @@ export class InvoiceService {
     return this.http.get<Invoice>(this.baseurl + "/invoice/sample");
   }
 
-  async getPdf(invoice: Invoice) {
-   const response = await fetch(this.baseurl + "/pdf");
-   const blobie = await response.blob();
-   console.log(blobie);
+  public getPdfFile(): Observable<Blob> {
+    let headers = new HttpHeaders();
+    headers = headers.set("Accept", "application/pdf");
+
+    const url = this.baseurl + "/pdf";
+
+    return this.http.get<Blob>(url, {
+      headers,
+      responseType: "blob" as "json"
+    });
   }
 }
