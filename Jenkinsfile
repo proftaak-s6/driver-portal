@@ -38,7 +38,7 @@ pipeline {
             steps{
                 node("docker-prod"){
                     git([url: 'https://github.com/proftaak-s6/driver-portal.git', branch: 'master', credentialsId: 'Github'])
-                    sh "docker service rm driver-portal_driver"
+ //                   sh "docker service rm driver-portal_driver"
                     sh "docker stack deploy --with-registry-auth -c docker-compose.prod.yml driver-portal"
                 }
             }
