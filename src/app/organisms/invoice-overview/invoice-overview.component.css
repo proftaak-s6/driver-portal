@@ -3,6 +3,11 @@
   margin: auto;
 }
 
+mat-spinner {
+  margin: auto;
+  width: 50%;
+}
+
 table {
   width: 100%;
 }

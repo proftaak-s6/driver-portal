@@ -8,16 +8,20 @@ import { Invoice, VehicleInvoice } from "src/services/invoice.models";
   styleUrls: ["./invoice-overview.component.css"]
 })
 export class InvoiceOverviewComponent implements OnInit {
-  invoice: Invoice;
+  invoices: Invoice[] = [];
 
   constructor(private invoiceService: InvoiceService) {}
 
   ngOnInit() {
-    this.invoiceService.getInvoice().subscribe(res => (this.invoice = res));
+    this.invoiceService.getInvoice().subscribe(res => {this.invoices.push(res);this.invoices.push(res);this.invoices.push(res);this.invoices.push(res);this.invoices.push(res);this.invoices.push(res);});
   }
 
-  private initiateInvoicePayment(vehicleInvoice: VehicleInvoice) {
+  private initiateInvoicePayment(invoice: Invoice) {
     console.log("Time to pay the VehicleInvoice!");
-    console.log(vehicleInvoice);
+    console.log(invoice);
+  }
+
+  private getPdf(invoice: Invoice){
+    this.invoiceService.getPdf(invoice);
   }
 }

@@ -12,4 +12,10 @@ export class InvoiceService {
   public getInvoice(): Observable<Invoice> {
     return this.http.get<Invoice>(this.baseurl + "/invoice/sample");
   }
+
+  async getPdf(invoice: Invoice) {
+   const response = await fetch(this.baseurl + "/pdf");
+   const blobie = await response.blob();
+   console.log(blobie);
+  }
 }

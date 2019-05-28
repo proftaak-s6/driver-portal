@@ -12,6 +12,7 @@ import {
   MatButtonModule,
   MatTableModule,
   MatIconModule,
+  MatProgressSpinnerModule,
   MatExpansionModule
 } from "@angular/material";
 
@@ -35,6 +36,7 @@ import { InvoiceService } from "src/services/invoice.service";
     MatToolbarModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressSpinnerModule,
     MatButtonModule,
     MatTableModule,
     MatIconModule,
