@@ -1,7 +1,33 @@
-.icon {
-  padding: 0 14px;
+#first-row {
+  height: 125px;
+  background-color: white;
+  color: black;
+  width: 100%;
 }
-
-.spacer {
+#first-row img {
+  display: inline-block;
+  margin-left: -25px;
+  padding-left: 50%;
+  height: 100%;
+}
+#second-row {
+  height: 74px;
+  background-color: #007bc7;
+  color: white;
+  padding-left: 15%;
+  padding-right: 15%;
+  font-weight: bold;
+  width: 100%;
+}
+#second-row span {
+  padding-left: 2em;
+}
+.fill-remaining-space {
+  /* This fills the remaining space, by using flexbox. 
+       Every toolbar row uses a flexbox row layout. */
   flex: 1 1 auto;
+}
+a {
+  color: white;
+  text-decoration: none;
 }

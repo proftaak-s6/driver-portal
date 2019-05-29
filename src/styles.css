@@ -1,11 +1,55 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-
-body{
-    margin: 0;
-    padding:0;
-    font-family: Calibri, sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Calibri', sans-serif !important;
+}
+/* You can add global styles to this file, and also import other style files */
+body {
+  background-color: #ebebeb;
+}
+button {
+  border-radius: 0px !important;
+  min-width: 110px !important;
+  min-height: 45px !important;
+  font-size: 1.05em !important;
+}
+.container {
+  margin: 2.5% 25%;
+}
+.container h1 {
+  padding: 3% 7.5%;
+}
+.container .content {
+  display: inline-block;
+  background: white;
+  padding: 3% 7.5% 3% 7.5%;
+  -webkit-box-shadow: 0px 3px 1px -1px rgba(0, 0, 0, 0.21);
+  -moz-box-shadow: 0px 3px 1px -1px rgba(0, 0, 0, 0.21);
+  box-shadow: 0px 3px 1px -1px rgba(0, 0, 0, 0.21);
+}
+.container .content #info {
+  font-size: 1.2em;
+  padding-bottom: 1.5em;
+}
+.container .content h2:not(:first-of-type) {
+  margin-top: 1.5em;
+}
+.container .content h2 {
+  margin-bottom: 0.5em;
+}
+.full-width {
+  width: 100%;
 }
 
-h3, p {
-    margin: 0;
+button {
+  float: right;
+  background-color: #3c861b;
+  color: white;
+  -webkit-box-shadow: 0px 3px 1px -1px rgba(0, 0, 0, 0.21);
+  -moz-box-shadow: 0px 3px 1px -1px rgba(0, 0, 0, 0.21);
+  box-shadow: 0px 3px 1px -1px rgba(0, 0, 0, 0.21);
+}
+.mat-icon {
+  margin-right: 0.5em;
 }
