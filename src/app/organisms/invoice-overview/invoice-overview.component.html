@@ -4,9 +4,7 @@
 
 <div class="container">
   <h1>Mijn ritten</h1>
-  <div id="paypal-checkout-btn"></div>
   <div class="content" style="width: 85%">
-
     <mat-accordion *ngIf="this.payments.length > 0">
       <div *ngFor="let payment of this.payments">
         <mat-expansion-panel>
@@ -38,7 +36,11 @@
 
                 <div class="invoicelines-regional">
                   <h3>Regional Invoice Lines</h3>
-                  <table mat-table [dataSource]="vehicleInvoice.regionalInvoiceLines" class="mat-elevation-z1">
+                  <table
+                    mat-table
+                    [dataSource]="vehicleInvoice.regionalInvoiceLines"
+                    class="mat-elevation-z1"
+                  >
                     <ng-container matColumnDef="region">
                       <th mat-header-cell *matHeaderCellDef>Region</th>
                       <td mat-cell *matCellDef="let element">
@@ -64,7 +66,10 @@
                       </td>
                     </ng-container>
 
-                    <ng-container matColumnDef="accountedPriceBeforeTaxes" class="mat-column-align-right">
+                    <ng-container
+                      matColumnDef="accountedPriceBeforeTaxes"
+                      class="mat-column-align-right"
+                    >
                       <th mat-header-cell *matHeaderCellDef>
                         Accounted price before taxes
                       </th>
@@ -73,13 +78,18 @@
                       </td>
                     </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="[
+                    <tr
+                      mat-header-row
+                      *matHeaderRowDef="[
                         'region',
                         'registrationMoment',
                         'regionalPriceBeforeTaxes',
                         'accountedPriceBeforeTaxes'
-                      ]"></tr>
-                    <tr mat-row *matRowDef="
+                      ]"
+                    ></tr>
+                    <tr
+                      mat-row
+                      *matRowDef="
                         let row;
                         columns: [
                           'region',
@@ -87,13 +97,18 @@
                           'regionalPriceBeforeTaxes',
                           'accountedPriceBeforeTaxes'
                         ]
-                      "></tr>
+                      "
+                    ></tr>
                   </table>
                 </div>
 
                 <div class="invoicelines-kilometer">
                   <h3>Kilometer Invoice Lines</h3>
-                  <table mat-table [dataSource]="vehicleInvoice.kilometerInvoiceLines" class="mat-elevation-z1">
+                  <table
+                    mat-table
+                    [dataSource]="vehicleInvoice.kilometerInvoiceLines"
+                    class="mat-elevation-z1"
+                  >
                     <ng-container matColumnDef="roadType">
                       <th mat-header-cell *matHeaderCellDef>Roadtype</th>
                       <td mat-cell *matCellDef="let element">
@@ -119,33 +134,39 @@
                       </td>
                     </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="[
+                    <tr
+                      mat-header-row
+                      *matHeaderRowDef="[
                         'roadType',
                         'drivenDistanceInMeters',
                         'pricePerKilometerBeforeTaxes'
-                      ]"></tr>
-                    <tr mat-row *matRowDef="
+                      ]"
+                    ></tr>
+                    <tr
+                      mat-row
+                      *matRowDef="
                         let row;
                         columns: [
                           'roadType',
                           'drivenDistanceInMeters',
                           'pricePerKilometerBeforeTaxes'
                         ]
-                      "></tr>
+                      "
+                    ></tr>
                   </table>
                 </div>
               </mat-expansion-panel>
             </div>
           </mat-accordion>
           <mat-action-row>
-            <button mat-raised-button color="accent" (click)="this.getPdfFile(invoice)">
+            <button
+              mat-raised-button
+              color="accent"
+              (click)="this.getPdfFile(invoice)"
+            >
               Download PDF
             </button>
-            <div id="paypal-checkout-btn">halllooo</div>
-            <button id="paypal-checkout-btn" class="button-pay" mat-raised-button color="primary" (click)="this.initiateInvoicePayment(payment)"
-              [disabled]="payment.isPaid">
-              Pay
-            </button>
+            <div id="paypal-checkout-btn" *ngIf="!payment.isPaid"></div>
           </mat-action-row>
         </mat-expansion-panel>
       </div>

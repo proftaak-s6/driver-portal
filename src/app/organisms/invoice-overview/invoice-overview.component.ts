@@ -1,7 +1,13 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewChecked } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  AfterViewChecked
+} from "@angular/core";
 import { InvoiceService } from "src/services/invoice.service";
 import { Invoice } from "src/services/invoice.models";
-import { promise } from 'protractor';
+import { promise } from "protractor";
 
 export enum Month {
   January = "January",
@@ -34,7 +40,6 @@ export class Payment {
     this.year = year;
     this.month = month;
     this.isPaid = isPaid;
-
   }
 
   public pay() {
@@ -50,16 +55,43 @@ declare let paypal: any;
   styleUrls: ["./invoice-overview.component.css"]
 })
 export class InvoiceOverviewComponent implements OnInit, AfterViewChecked {
-  @ViewChild("downloadPdfLink") private downloadPdfLink: ElementRef;
-
-  private payments: Payment[] = [];
-  private finalAmount: number;
-  private addScript: boolean = false;
   // invoices: Invoice[] = [];
 
   constructor(private invoiceService: InvoiceService) {
     this.finalAmount = 1;
   }
+  @ViewChild("downloadPdfLink") private downloadPdfLink: ElementRef;
+
+  private payments: Payment[] = [];
+  private finalAmount: number;
+  private addScript: boolean = false;
+
+  paypalConfig = {
+    env: "sandbox",
+    client: {
+      sandbox:
+        "AfQdRQ1To1ZVQ7d9sIwwVzdboyFe9xkCjdkjbs7HKAAbiAWbWIROPY1CDsCfibzFAw4gZ4Hr4E4RQTmr"
+    },
+    commit: true,
+    payment: (data, actions) => {
+      return actions.payment.create({
+        payment: {
+          redirect_urls: {
+            return_url: "http://mijn.rekeningrijden.fontys-project.nl/",
+            cancel_url: "http://portal.rekeningrijden.fontys-project.nl/"
+          },
+          transactions: [
+            { amount: { total: this.finalAmount, currency: "EUR" } }
+          ]
+        }
+      });
+    },
+    onAuthorize: (data, actions) => {
+      return actions.payment.execute().then(payment => {
+        //Do something when payment succes
+      });
+    }
+  };
 
   ngOnInit() {
     this.invoiceService.getInvoice().subscribe(res => {
@@ -106,47 +138,21 @@ export class InvoiceOverviewComponent implements OnInit, AfterViewChecked {
     });
   }
 
-  paypalConfig = {
-    env: 'sandbox',
-    client: {
-      sandbox: 'AfQdRQ1To1ZVQ7d9sIwwVzdboyFe9xkCjdkjbs7HKAAbiAWbWIROPY1CDsCfibzFAw4gZ4Hr4E4RQTmr'
-    },
-    commit: true,
-    payment: (data, actions) => {
-      return actions.payment.create({
-        payment: {
-          redirect_urls:{
-            return_url:'http://mijn.rekeningrijden.fontys-project.nl/',
-            cancel_url:'http://portal.rekeningrijden.fontys-project.nl/'
-          },
-          transactions: [
-            { amount: { total: this.finalAmount, currency: 'EUR'} }
-          ]
-        }
-      });
-    },
-    onAuthorize: (data, actions) => {
-      return actions.payment.execute().then((payment) => {
-        //Do something when payment succes
-      })
-    }
-  };
-
   ngAfterViewChecked(): void {
     if (!this.addScript) {
       this.addPaypalScript().then(() => {
-        paypal.Button.render(this.paypalConfig, 'paypal-checkout-btn');
-      })
+        paypal.Button.render(this.paypalConfig, "paypal-checkout-btn");
+      });
     }
   }
 
   addPaypalScript() {
     this.addScript = true;
     return new Promise((resolve, reject) => {
-      let scripttagElement = document.createElement('script');
-      scripttagElement.src = 'https://www.paypalobjects.com/api/checkout.js';
+      let scripttagElement = document.createElement("script");
+      scripttagElement.src = "https://www.paypalobjects.com/api/checkout.js";
       scripttagElement.onload = resolve;
       document.body.appendChild(scripttagElement);
-    })
+    });
   }
 }
