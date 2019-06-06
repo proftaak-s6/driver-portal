@@ -4,6 +4,7 @@
 
 <div class="container">
   <h1>Mijn ritten</h1>
+  <div id="paypal-checkout-btn"></div>
   <div class="content" style="width: 85%">
 
     <mat-accordion *ngIf="this.payments.length > 0">
@@ -140,7 +141,8 @@
             <button mat-raised-button color="accent" (click)="this.getPdfFile(invoice)">
               Download PDF
             </button>
-            <button class="button-pay" mat-raised-button color="primary" (click)="this.initiateInvoicePayment(payment)"
+            <div id="paypal-checkout-btn">halllooo</div>
+            <button id="paypal-checkout-btn" class="button-pay" mat-raised-button color="primary" (click)="this.initiateInvoicePayment(payment)"
               [disabled]="payment.isPaid">
               Pay
             </button>
