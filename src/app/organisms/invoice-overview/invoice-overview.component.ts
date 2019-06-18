@@ -3,7 +3,7 @@ import {
   OnInit
 } from "@angular/core";
 import { InvoiceService } from "src/services/invoice.service";
-import { Invoice, InvoiceCard } from "src/services/invoice.models";
+import { Invoice, InvoiceCard, DrivenStep } from "src/services/invoice.models";
 import { saveAs } from 'browser-filesaver/FileSaver.js'
 
 @Component({
@@ -38,5 +38,32 @@ export class InvoiceOverviewComponent implements OnInit {
 
   private paymentProcessed(success: boolean) {
     console.log("Payment processed " + success);
+  }
+
+  private calculateTotalCarDistance(steps: DrivenStep[]): number {
+    let totalcost: number = 0;
+    for (let entry of steps) {
+      totalcost += entry.priceToPay;
+    }
+
+    return totalcost;
+  }
+
+  private calculateTotalCarCost(steps: DrivenStep[]): number {
+    let totaldistance: number = 0;
+    for (let entry of steps) {
+      totaldistance += entry.distance;
+    }
+
+    return totaldistance / 1000;
+  }
+
+  private calculateTotalInvoiceCost(invoice: Invoice) {
+    let totalcost: number = 0;
+    for (let entry of invoice.cars) {
+      totalcost += this.calculateTotalCarCost(entry.drivenSteps);
+    }
+
+    return totalcost.toFixed(2);
   }
 }

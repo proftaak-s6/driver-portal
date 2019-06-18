@@ -75,7 +75,7 @@
             <button mat-raised-button color="accent" (click)="this.getPdfFile(invoiceCard)">
               Download PDF
             </button>
-            <app-paypal-button [amountToPay]="100" (paymentProcessed)="this.paymentProcessed($event)">
+            <app-paypal-button [amountToPay]="this.calculateTotalInvoiceCost(invoiceCard.invoice)" (paymentProcessed)="this.paymentProcessed($event)">
             </app-paypal-button>
           </mat-action-row>
         </mat-expansion-panel>
