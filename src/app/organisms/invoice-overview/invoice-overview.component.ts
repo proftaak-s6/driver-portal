@@ -18,10 +18,10 @@ declare let paypal: any;
   styleUrls: ["./invoice-overview.component.css"]
 })
 export class InvoiceOverviewComponent implements OnInit, AfterViewChecked {
+
   constructor(private invoiceService: InvoiceService) {
     this.finalAmount = 1;
   }
-  @ViewChild("downloadPdfLink") private downloadPdfLink: ElementRef;
 
   private invoiceCards: InvoiceCard[] = [];
   private finalAmount: number;
@@ -57,7 +57,6 @@ export class InvoiceOverviewComponent implements OnInit, AfterViewChecked {
   ngOnInit() {
     this.invoiceService.getInvoice(9998, 2019, 6).subscribe((res: Invoice) => {
       const invoicecard: InvoiceCard = { invoice: res, year: 2019, month: 6 };
-      console.log(invoicecard);
       this.invoiceCards.push(invoicecard);
     });
   }
@@ -73,19 +72,11 @@ export class InvoiceOverviewComponent implements OnInit, AfterViewChecked {
 
   private getPdfFile(invoiceCard: InvoiceCard) {
     this.invoiceService.getPdfFile(9998, invoiceCard.year, invoiceCard.month).subscribe((data: Blob) => {
-      console.log(blob);
+      var blob = new Blob([data], { type: 'application/pdf' });
 
-      var blob = new Blob([data], {type: 'application/pdf'});
-      saveAs(blob, "report.pdf");
+      var filename = "Rekeningrijden - " + invoiceCard.invoice.personalInformation.fullname + " - " + invoiceCard.year + "-" + invoiceCard.month;
 
-      // const url = window.URL.createObjectURL(blob);
-
-      // const link = this.downloadPdfLink.nativeElement;
-      // link.href = url;
-      // link.download = "invoice.pdf";
-      // link.click();
-
-      // window.URL.revokeObjectURL(url);
+      saveAs(blob, filename);
     });
   }
 

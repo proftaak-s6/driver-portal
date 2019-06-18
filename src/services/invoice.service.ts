@@ -26,14 +26,11 @@ export class InvoiceService {
   ): Observable<Blob> {
     const url = this.baseurl + "/pdf/" + brpId + "/" + year + "/" + month;
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/pdf',
-      'Accept': 'application/pdf'
-    });
+    let headers = new HttpHeaders();
 
-    return this.http.post<Blob>(url, {
+    return this.http.post<Blob>(url, null, {
       headers,
-      responseType: "blob"
+      responseType: "blob" as "json"
     });
   }
 }
