@@ -31,3 +31,7 @@ h3 {
 .button-pay {
   margin-left: 8px;
 }
+
+tr.mat-footer-row {
+  font-weight: bold;
+}
