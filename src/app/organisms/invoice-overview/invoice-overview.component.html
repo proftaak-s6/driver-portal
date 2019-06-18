@@ -6,10 +6,8 @@
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <b
-                >{{ invoiceCard.month | date: "MMMM" }}
-                {{ invoiceCard.year }}</b
-              >
+              <b>{{ invoiceCard.month | date: "MMMM" }}
+                {{ invoiceCard.year }}</b>
             </mat-panel-title>
             <mat-panel-description>
               <div *ngIf="invoiceCard.invoice.payment.isPaid">
@@ -34,15 +32,8 @@
                 </mat-expansion-panel-header>
 
                 <div class="table-car-drivensteps">
-                  <table
-                    mat-table
-                    [dataSource]="car.drivenSteps"
-                    class="mat-elevation-z1"
-                  >
-                    <tr
-                      mat-header-row
-                      *matHeaderRowDef="['name', 'distance', 'priceToPay']"
-                    ></tr>
+                  <table mat-table [dataSource]="car.drivenSteps" class="mat-elevation-z1">
+                    <tr mat-header-row *matHeaderRowDef="['name', 'distance', 'priceToPay']"></tr>
 
                     <ng-container matColumnDef="name">
                       <th mat-header-cell *matHeaderCellDef>Straatnaame</th>
@@ -72,13 +63,10 @@
                       <td mat-footer-cell *matFooterCellDef>€ 200</td>
                     </ng-container>
 
-                    <tr
-                      mat-row
-                      *matRowDef="
+                    <tr mat-row *matRowDef="
                         let row;
                         columns: ['name', 'distance', 'priceToPay']
-                      "
-                    ></tr>
+                      "></tr>
                     <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
                   </table>
                 </div>
@@ -86,18 +74,11 @@
             </div>
           </mat-accordion>
           <mat-action-row>
-            <button
-              mat-raised-button
-              color="accent"
-              (click)="this.getPdfFile(invoiceCard)"
-            >
+            <button mat-raised-button color="accent" (click)="this.getPdfFile(invoiceCard)">
               Download PDF
             </button>
-
-            <div
-              id="paypal-checkout-btn"
-              *ngIf="!invoiceCard.invoice.payment.isPaid"
-            ></div>
+            <app-paypal-button [amountToPay]="100" (paymentProcessed)="this.paymentProcessed($event)">
+            </app-paypal-button>
           </mat-action-row>
         </mat-expansion-panel>
       </div>

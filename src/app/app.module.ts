@@ -21,12 +21,14 @@ import { AppComponent } from "./app.component";
 import { HeaderBarComponent } from "./molecules/header-bar/header-bar.component";
 import { InvoiceOverviewComponent } from "./organisms/invoice-overview/invoice-overview.component";
 import { InvoiceService } from "src/services/invoice.service";
+import { PaypalButtonComponent } from './atoms/paypal-button/paypal-button.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderBarComponent,
     InvoiceOverviewComponent,
+    PaypalButtonComponent,
   ],
   imports: [
     BrowserModule,
