@@ -6,46 +6,9 @@ import {
   AfterViewChecked
 } from "@angular/core";
 import { InvoiceService } from "src/services/invoice.service";
-import { Invoice } from "src/services/invoice.models";
+import { Invoice, Payment, InvoiceCard } from "src/services/invoice.models";
 import { promise } from "protractor";
-
-export enum Month {
-  January = "January",
-  February = "February",
-  March = "March",
-  April = "April",
-  May = "May",
-  June = "June",
-  July = "July",
-  August = "August",
-  September = "September",
-  October = "October",
-  November = "November",
-  December = "December"
-}
-
-export class Payment {
-  private invoice: Invoice;
-  private year: number;
-  private month: Month;
-  private isPaid: boolean;
-
-  constructor(
-    invoice: Invoice,
-    year: number,
-    month: Month,
-    isPaid: boolean = true
-  ) {
-    this.invoice = invoice;
-    this.year = year;
-    this.month = month;
-    this.isPaid = isPaid;
-  }
-
-  public pay() {
-    this.isPaid = true;
-  }
-}
+import { saveAs } from 'browser-filesaver/FileSaver.js'
 
 declare let paypal: any;
 
@@ -55,14 +18,12 @@ declare let paypal: any;
   styleUrls: ["./invoice-overview.component.css"]
 })
 export class InvoiceOverviewComponent implements OnInit, AfterViewChecked {
-  // invoices: Invoice[] = [];
-
   constructor(private invoiceService: InvoiceService) {
     this.finalAmount = 1;
   }
   @ViewChild("downloadPdfLink") private downloadPdfLink: ElementRef;
 
-  private payments: Payment[] = [];
+  private invoiceCards: InvoiceCard[] = [];
   private finalAmount: number;
   private addScript: boolean = false;
 
@@ -94,47 +55,37 @@ export class InvoiceOverviewComponent implements OnInit, AfterViewChecked {
   };
 
   ngOnInit() {
-    this.invoiceService.getInvoice().subscribe(res => {
-      // Extra invoices can be activated by uncommenting, but it gets very crouded
-      // this.payments.push(new Payment(res, 2018, Month.January));
-      // this.payments.push(new Payment(res, 2018, Month.February));
-      // this.payments.push(new Payment(res, 2018, Month.March));
-      // this.payments.push(new Payment(res, 2018, Month.April));
-      // this.payments.push(new Payment(res, 2018, Month.May));
-      // this.payments.push(new Payment(res, 2018, Month.June));
-      // this.payments.push(new Payment(res, 2018, Month.July));
-      this.payments.push(new Payment(res, 2018, Month.August));
-      this.payments.push(new Payment(res, 2018, Month.September));
-      this.payments.push(new Payment(res, 2018, Month.October));
-      this.payments.push(new Payment(res, 2018, Month.November));
-      this.payments.push(new Payment(res, 2018, Month.December));
-      this.payments.push(new Payment(res, 2019, Month.January));
-      this.payments.push(new Payment(res, 2019, Month.February));
-      this.payments.push(new Payment(res, 2019, Month.March));
-      this.payments.push(new Payment(res, 2019, Month.April));
-      this.payments.push(new Payment(res, 2019, Month.May, false));
+    this.invoiceService.getInvoice(9998, 2019, 6).subscribe((res: Invoice) => {
+      const invoicecard: InvoiceCard = { invoice: res, year: 2019, month: 6 };
+      console.log(invoicecard);
+      this.invoiceCards.push(invoicecard);
     });
   }
 
-  private initiateInvoicePayment(payment: Payment) {
+  private initiatePayment(payment: Payment) {
+    // this.finalAmount = payment.
     console.log("Time to pay the VehicleInvoice!");
     console.log(payment);
 
-    payment.pay();
+
+    payment.isPaid = true;
   }
 
-  private getPdfFile(invoice: Invoice) {
-    this.invoiceService.getPdfFile().subscribe(blob => {
+  private getPdfFile(invoiceCard: InvoiceCard) {
+    this.invoiceService.getPdfFile(9998, invoiceCard.year, invoiceCard.month).subscribe((data: Blob) => {
       console.log(blob);
 
-      const url = window.URL.createObjectURL(blob);
+      var blob = new Blob([data], {type: 'application/pdf'});
+      saveAs(blob, "report.pdf");
 
-      const link = this.downloadPdfLink.nativeElement;
-      link.href = url;
-      link.download = "invoice.pdf";
-      link.click();
+      // const url = window.URL.createObjectURL(blob);
 
-      window.URL.revokeObjectURL(url);
+      // const link = this.downloadPdfLink.nativeElement;
+      // link.href = url;
+      // link.download = "invoice.pdf";
+      // link.click();
+
+      // window.URL.revokeObjectURL(url);
     });
   }
 

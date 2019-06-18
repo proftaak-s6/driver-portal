@@ -11,42 +11,63 @@ export interface PersonalInformation {
   address: Address;
 }
 
-export interface SupplierInformation {
-  companyName: string;
-  address: Address;
-  btwnumberString: string;
-  kvknumberString: string;
-  ibanstring: string;
+export interface Payment {
+  id: number;
+  bsn: string;
+  month: string;
+  year: number;
+  isPaid: boolean;
 }
 
-export interface Vehicle {
-  displayName: string;
-  licensePlate: string;
+export interface Tracker {
+  id: number;
+  manufacturer: string;
+  activationDate: string;
 }
 
-export interface RegionalInvoiceLine {
-  region: string;
-  registrationMoment: any;
-  regionalPriceBeforeTaxes: number;
-  accountedPriceBeforeTaxes: number;
+export interface Start {
+  name: string;
+  lat: number;
+  lng: number;
 }
 
-export interface KilometerInvoiceLine {
-  roadType: string;
-  drivenDistanceInMeters: number;
-  pricePerKilometerBeforeTaxes: number;
+export interface Location {
+  date: string;
+  lat: number;
+  lng: number;
 }
 
-export interface VehicleInvoice {
-  vehicle: Vehicle;
-  regionalInvoiceLines: RegionalInvoiceLine[];
-  kilometerInvoiceLines: KilometerInvoiceLine[];
+export interface DrivenStep {
+  distance: number;
+  start: Start;
+  locations: Location[];
+  priceToPay: number;
+}
+
+export interface Car {
+  id: number;
+  ownerId: number;
+  ownershipHistoryList: any[];
+  licensePlateNumber: string;
+  brand: string;
+  series: string;
+  vehicleType: string;
+  engineType: string;
+  fuelType: string;
+  energyLabel: string;
+  tracker: Tracker;
+  drivenSteps: DrivenStep[];
 }
 
 export interface Invoice {
-  invoiceNumberString: string;
-  invoiceDate: number;
+  invoiceDate: string;
   personalInformation: PersonalInformation;
-  supplierInformation: SupplierInformation;
-  vehicleInvoices: VehicleInvoice[];
+  payment: Payment;
+  cars: Car[];
+}
+
+export class InvoiceCard {
+  invoice: Invoice;
+  year: number;
+  month: number;
 }
