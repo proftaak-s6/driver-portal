@@ -13,7 +13,8 @@ import {
   MatTableModule,
   MatIconModule,
   MatProgressSpinnerModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatChipsModule
 } from "@angular/material";
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -22,6 +23,7 @@ import { HeaderBarComponent } from "./molecules/header-bar/header-bar.component"
 import { InvoiceOverviewComponent } from "./organisms/invoice-overview/invoice-overview.component";
 import { InvoiceService } from "src/services/invoice.service";
 import { PaypalButtonComponent } from './atoms/paypal-button/paypal-button.component';
+import { InvoiceCardComponent } from './organisms/invoice-card/invoice-card.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { PaypalButtonComponent } from './atoms/paypal-button/paypal-button.compo
     HeaderBarComponent,
     InvoiceOverviewComponent,
     PaypalButtonComponent,
+    InvoiceCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { PaypalButtonComponent } from './atoms/paypal-button/paypal-button.compo
     MatButtonModule,
     MatTableModule,
     MatIconModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatChipsModule
   ],
   providers: [InvoiceService],
   bootstrap: [AppComponent]

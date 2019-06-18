@@ -1,6 +1,4 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { InvoiceService } from 'src/services/invoice.service';
-
 
 declare let paypal: any;
 
@@ -12,9 +10,6 @@ declare let paypal: any;
 export class PaypalButtonComponent implements OnInit {
   @Input() amountToPay: number;
   @Output() paymentProcessed = new EventEmitter<boolean>();
-
-  constructor(private invoiceService: InvoiceService) {
-  }
 
   ngOnInit() {
   }
@@ -32,8 +27,6 @@ export class PaypalButtonComponent implements OnInit {
       return actions.payment.create({
         payment: {
           redirect_urls: {
-            // return_url: "http://localhost:4200/",
-            // cancel_url: "http://localhost:4200/"
             return_url: "http://mijn.rekeningrijden.fontys-project.nl/",
             cancel_url: "http://portal.rekeningrijden.fontys-project.nl/"
           },
@@ -45,11 +38,8 @@ export class PaypalButtonComponent implements OnInit {
     },
     onAuthorize: (data, actions) => {
       return actions.payment.execute().then(payment => {
-        //Do something when payment success
-        console.log(payment);
         this.paymentProcessed.emit(true);
-      }, err => this.paymentProcessed.emit(false),
-        () => this.paymentProcessed.emit(true));
+      }, err => this.paymentProcessed.emit(false));
     }
   };
 

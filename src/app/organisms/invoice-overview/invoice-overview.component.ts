@@ -3,8 +3,7 @@ import {
   OnInit
 } from "@angular/core";
 import { InvoiceService } from "src/services/invoice.service";
-import { Invoice, InvoiceCard, DrivenStep } from "src/services/invoice.models";
-import { saveAs } from 'browser-filesaver/FileSaver.js'
+import { Invoice, InvoiceCard } from "src/services/invoice.models";
 
 @Component({
   selector: "app-invoice-overview",
@@ -18,52 +17,25 @@ export class InvoiceOverviewComponent implements OnInit {
   constructor(private invoiceService: InvoiceService) {
   }
 
-
   ngOnInit() {
-    this.invoiceService.getInvoice(9998, 2019, 6).subscribe((res: Invoice) => {
-      const invoicecard: InvoiceCard = { invoice: res, year: 2019, month: 6 };
+    // Will start at july 2019 and create invoices for every month before it in 2019 and add it to the list
+    // Done like this to minimize load 
+    this.getPreviousMonth(9998, 2019, 7);
+  }
+
+  private getPreviousMonth(brpId: number, year: number, month: number) {
+    this.invoiceService.getInvoice(brpId, year, month).subscribe((res: Invoice) => {
+      const invoicecard: InvoiceCard = { invoice: res, year: year, month: month };
+      console.log(invoicecard);
       this.invoiceCards.push(invoicecard);
+      if (month > 1) {
+        this.getPreviousMonth(brpId, year, (month - 1));
+      }
     });
   }
 
-  private getPdfFile(invoiceCard: InvoiceCard) {
-    this.invoiceService.getPdfFile(9998, invoiceCard.year, invoiceCard.month).subscribe((data: Blob) => {
-      var blob = new Blob([data], { type: 'application/pdf' });
-
-      var filename = "Rekeningrijden - " + invoiceCard.invoice.personalInformation.fullname + " - " + invoiceCard.year + "-" + invoiceCard.month;
-
-      saveAs(blob, filename);
-    });
-  }
-
-  private paymentProcessed(success: boolean) {
-    console.log("Payment processed " + success);
-  }
-
-  private calculateTotalCarDistance(steps: DrivenStep[]): number {
-    let totalcost: number = 0;
-    for (let entry of steps) {
-      totalcost += entry.priceToPay;
-    }
-
-    return totalcost;
-  }
-
-  private calculateTotalCarCost(steps: DrivenStep[]): number {
-    let totaldistance: number = 0;
-    for (let entry of steps) {
-      totaldistance += entry.distance;
-    }
-
-    return totaldistance / 1000;
-  }
-
-  private calculateTotalInvoiceCost(invoice: Invoice) {
-    let totalcost: number = 0;
-    for (let entry of invoice.cars) {
-      totalcost += this.calculateTotalCarCost(entry.drivenSteps);
-    }
-
-    return totalcost.toFixed(2);
+  private refreshData() {
+    this.invoiceCards.length = 0;
+    this.getPreviousMonth(9998, 2019, 7);
   }
 }

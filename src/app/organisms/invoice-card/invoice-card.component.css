@@ -1,0 +1,16 @@
+table {
+  width: 100%;
+}
+
+tr.mat-footer-row {
+  font-weight: bold;
+}
+
+app-paypal-button {
+  padding-top: 13px;
+  padding-right: 18px;
+}
+
+.button-pay {
+  margin-left: 8px;
+}
