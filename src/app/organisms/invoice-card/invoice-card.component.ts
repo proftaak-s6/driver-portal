@@ -27,7 +27,7 @@ export class InvoiceCardComponent implements OnInit {
 
 
   private getPdfFile(invoiceCard: InvoiceCard) {
-    this.invoiceService.getPdfFile(9998, invoiceCard.year, invoiceCard.month).subscribe((data: Blob) => {
+    this.invoiceService.getPdfFile(1, invoiceCard.year, invoiceCard.month).subscribe((data: Blob) => {
       var blob = new Blob([data], { type: 'application/pdf' });
 
       var filename = "Rekeningrijden - " + invoiceCard.invoice.personalInformation.fullname + " - " + invoiceCard.year + "-" + invoiceCard.month;

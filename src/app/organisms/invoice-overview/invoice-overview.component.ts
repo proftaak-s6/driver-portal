@@ -13,14 +13,15 @@ import { Invoice, InvoiceCard } from "src/services/invoice.models";
 export class InvoiceOverviewComponent implements OnInit {
 
   private invoiceCards: InvoiceCard[] = [];
+  private brpId = 1;
 
   constructor(private invoiceService: InvoiceService) {
   }
 
   ngOnInit() {
-    // Will start at july 2019 and create invoices for every month before it in 2019 and add it to the list
+    // Will start at june 2019 and create invoices for every month before it in 2019 and add it to the list
     // Done like this to minimize load 
-    this.getPreviousMonth(9998, 2019, 7);
+    this.getPreviousMonth(this.brpId, 2019, 6);
   }
 
   private getPreviousMonth(brpId: number, year: number, month: number) {
@@ -36,6 +37,6 @@ export class InvoiceOverviewComponent implements OnInit {
 
   private refreshData() {
     this.invoiceCards.length = 0;
-    this.getPreviousMonth(9998, 2019, 7);
+    this.getPreviousMonth(this.brpId, 2019, 7);
   }
 }
