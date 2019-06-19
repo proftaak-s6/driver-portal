@@ -19,24 +19,15 @@ export class InvoiceOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Will start at june 2019 and create invoices for every month before it in 2019 and add it to the list
-    // Done like this to minimize load 
-    this.getPreviousMonth(this.brpId, 2019, 6);
+    this.refreshData(this.brpId, 2019, 6);
   }
 
-  private getPreviousMonth(brpId: number, year: number, month: number) {
+  private refreshData(brpId: number, year: number, month: number) {
+    this.invoiceCards.length = 0;
     this.invoiceService.getInvoice(brpId, year, month).subscribe((res: Invoice) => {
       const invoicecard: InvoiceCard = { invoice: res, year: year, month: month };
       console.log(invoicecard);
       this.invoiceCards.push(invoicecard);
-      if (month > 1) {
-        this.getPreviousMonth(brpId, year, (month - 1));
-      }
     });
-  }
-
-  private refreshData() {
-    this.invoiceCards.length = 0;
-    this.getPreviousMonth(this.brpId, 2019, 7);
   }
 }

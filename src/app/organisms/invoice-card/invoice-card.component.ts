@@ -37,7 +37,7 @@ export class InvoiceCardComponent implements OnInit {
   }
 
   private needsToPay(invoice: Invoice): boolean {
-    return invoice.payment.isPaid == true || this.calculateTotalInvoiceCost(invoice).length == 1;
+    return !invoice.payment.isPaid;
   }
 
   private calculateTotalCarDistance(steps: DrivenStep[]): number {
